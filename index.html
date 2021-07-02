@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style>
+      body{
+     background-color: rgb(144, 243, 230);
+    
+      }
+.head{
+  color: blueviolet;
+}
+.foot{
+  color: blueviolet;
+  margin-top: 2%;
+}
+#btn{
+  margin-right: 30px;
+  margin-top: 12px;
+  padding: 6px;
+  border: none;
+  border-radius: 5px;
+  background-color: teal;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#foottext{
+  color: blueviolet;
+padding-left: 32%;
+margin-top: 3%;
+}
+#headtext{
+  color: blueviolet;
+padding-left: 32%;
+margin-top: 2%;
+}
+#mycanvas{
+  margin-top: 10%;
+  box-shadow: 2px 2px 2px 2px ;
+}
+#btn{
+  margin-top: 12%;
+    margin-left: 2%;
+    padding: 1%;
+}
+
+    </style>
+    
+</head>
+<body>
+  
+        <header class="head">
+            <label style="font-size: 20px ;" for=" myhead"> Input the header</label>
+            <input style="padding: 10px; width: 580px; border-radius: 3px; margin: auto;" id="headtext" type="text">
+        </header>
+        <footer class="foot">
+            <label style="font-size: 20px ;"for="myfoot"> Input the footer</label>
+            <input style="padding: 10px; width: 580px; border-radius: 3px; margin: auto;" id="foottext" type="text">
+        </footer>
+        <!-- <button class="myenter"  onclick="Onenter()" >
+            Enter 
+        </button> -->
+        <label for="uploader">Select file:</label>
+        <input type="file" id="uploader" />
+        <button id="btn" onclick="myDownload()" disabled> Download</button>
+    <!-- <img id="mycar" src="car.png" alt=""   style="display: none;" > -->
+    <canvas id="mycanvas"  height="400" width="400"></canvas>
+    <!-- <button  onclick="uploadImage()"  >Image</button> -->
+    
+        
+    <script>
+     
+      const canvas = document.getElementById("mycanvas");
+      const ctx = canvas.getContext("2d");
+      const reader = new FileReader();
+      const img = new Image();
+
+      
+
+      const uploadImage = (e) => {
+        reader.onload = () => {
+          img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            document.getElementById("btn").disabled=false;
+            const headtext = document.getElementById("headtext").value;
+            const foottext = document.getElementById("foottext").value;
+            ctx.fillStyle="rgba(255,255,0,0.5)";
+            ctx.fillRect(0,0,img.width,40);
+            ctx.fillRect(0,img.height-40,img.width,40);
+            ctx.font = "20px Georgia";
+            ctx.fillStyle="rgba(255, 0, 0, 0.767)";
+            ctx.fillText(headtext, 100, 40);
+            ctx.fillText(foottext, 100, img.height-20);
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      };
+      const imageLoader = document.getElementById("uploader");
+      imageLoader.addEventListener("change", uploadImage);
+function myDownload(){
+  var canvas = document.getElementById("mycanvas");
+  image = canvas.toDataURL("image/png");
+  var link = document.createElement('a');
+  link.download = "car.png";
+  link.href = image;
+  link.click();
+}
+
+     </script>
+</body>
+</html>
